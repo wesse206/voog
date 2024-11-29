@@ -1,17 +1,10 @@
 import datetime
 from multipledispatch import dispatch
-import pyodbc
 import openpyxl
+from connectDB import connectDB
 
 class ImportTool():
     def __init__(self, path):
-        # SQL Connection String
-        self.SERVER = 'localhost\\SQLEXPRESS'
-        self.DATABASE = 'voog'
-        self.USERNAME = 'Voog'
-        self.PASSWORD = 'HSD@123'
-        self.connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={self.SERVER};DATABASE={self.DATABASE};UID={self.USERNAME};PWD={self.PASSWORD};Encrypt=no;'
-        
         self.header = True
 
         # Start Import Tool
@@ -20,7 +13,7 @@ class ImportTool():
         self.book = openpyxl.load_workbook(path)
 
     def connectDB(self):
-        conn = pyodbc.connect(self.connectionString) 
+        conn = connectDB()
         return conn
     
     @dispatch()
