@@ -1,42 +1,5 @@
-<router-outlet>
-  <h1>Kies die onderwyser vir voog:</h1>
+<app-navigation></app-navigation>
+<section class="w3-padding">
+  <router-outlet></router-outlet>
   
-
-  <form [formGroup]="lookupForm" (ngSubmit)="onSubmit()" class="w3-border w3-round-xlarge w3-padding w3-container" style="width: 50%;">
-    <div class="w3-padding">
-      <label for="teacherCode">Teacher Code</label>
-      <input class="w3-right" style="width:15%" id="teacherCode" formControlName="teacherCode" type="text" placeholder="WET" />
-    </div>
-    <div class="w3-padding">
-      <label for="day">Day</label>
-      <input class="w3-right" style="width:15%" id="day" formControlName="day" type="number" min="1" max="8" placeholder="1" />
-    </div>
-    <div class="w3-padding">
-      <input class="w3-black w3-round-large w3-button w3-right" type="submit">
-    </div>
-    <br />
-  </form>
-
-  <br />
-  <table *ngIf="orphans" class="w3-table-all">
-    <tr>
-      <th>Class</th>
-      <th>Grade</th>
-      <th>Learner</th>
-      <th>Period</th>
-      <th>Subject</th>
-      <th>TeacherCode</th>
-      <th>TimeTablePeriod</th>
-    </tr>
-    <tr *ngFor="let learners of orphans">
-      <td>{{ learners['Class'] }}</td>
-      <td>{{ learners['Grade'] }}</td>
-      <td>{{ learners['Learner'] }}</td>
-      <td>{{ learners['Period'] }}</td>
-      <td>{{ learners['Subject'] }}</td>
-      <td>{{ learners['TeacherCode'] }}</td>
-      <td>{{ learners['TimeTablePeriod'] }}</td>
-    </tr>
-  </table>
-  
-</router-outlet>
+</section>

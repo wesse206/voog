@@ -4,11 +4,12 @@ import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { NavigationComponent } from './navigation/navigation.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ReactiveFormsModule, CommonModule],
+  imports: [RouterOutlet, ReactiveFormsModule, CommonModule, NavigationComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 
