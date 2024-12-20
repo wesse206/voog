@@ -1,5 +1,10 @@
 <nav class="w3-bar w3-black">
-    <button routerLink="/" routerLinkActive="active" class="w3-bar-item w3-button w3-black">Home</button>
-    <button routerLink="/onderwyser-afwesig" routerLinkActive="active" class="w3-bar-item w3-button w3-black">Onderwysers Afwesighede</button>    
-    <button routerLink="/voog" routerLinkActive="active" class="w3-bar-item w3-button w3-black">Wie voog by my?</button> 
+    <button routerLink="/" routerLinkActive="active" class="w3-bar-item w3-button w3-black w3-margin">Home</button>
+    <button routerLink="/onderwyser-afwesig" routerLinkActive="active" class="w3-bar-item w3-button w3-black w3-margin">Onderwysers Afwesighede</button>    
+    <button routerLink="/voog" routerLinkActive="active" class="w3-bar-item w3-button w3-black w3-margin">Wie voog by my?</button> 
+    <select #OnderwyserKode (change)="onSelect(OnderwyserKode.value)" class="w3-input w3-bar-item w3-right w3-round w3-margin">
+        <option default>Kode</option>
+        <option value="WET">WET</option>
+        <option value="HUM">HUM</option>
+    </select>
 </nav>

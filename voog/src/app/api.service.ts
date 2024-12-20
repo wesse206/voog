@@ -1,11 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+  
+  private TeacherCodeSource = new Subject<string>();
+  TeacherCodeSource$ = this.TeacherCodeSource.asObservable();
+
+  TeacherCode(Code: string) {
+    this.TeacherCodeSource.next(Code)
+  }
 
   getTeacherlessLearners(TeacherCode: string, Day:  number): Observable<any> {
     return this.http.get(`/api/getTeacherlessLearners?TeacherCode=${TeacherCode}&Day=${Day}`)
