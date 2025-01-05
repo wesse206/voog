@@ -1,10 +1,14 @@
 <nav class="w3-bar w3-black">
-    <button routerLink="/" routerLinkActive="active" class="w3-bar-item w3-button w3-black w3-margin">Home</button>
-    <button routerLink="/onderwyser-afwesig" routerLinkActive="active" class="w3-bar-item w3-button w3-black w3-margin">Onderwysers Afwesighede</button>    
-    <button routerLink="/voog" routerLinkActive="active" class="w3-bar-item w3-button w3-black w3-margin">Wie voog by my?</button> 
-    <select #OnderwyserKode (change)="onSelect(OnderwyserKode.value)" class="w3-input w3-bar-item w3-right w3-round w3-margin">
-        <option default>Kode</option>
-        <option value="WET">WET</option>
-        <option value="HUM">HUM</option>
+    <button routerLink="/" routerLinkActive="active" class="w3-bar-item w3-button w3-black w3-margin w3-round">Home</button>
+    <button routerLink="/onderwyser-afwesig" routerLinkActive="active" class="w3-bar-item w3-button w3-black w3-margin w3-round">Onderwysers Afwesighede</button>    
+    <button routerLink="/voog" routerLinkActive="active" class="w3-bar-item w3-button w3-black w3-margin w3-round">Wie voog by my?</button> 
+    <select #TimeTableDay (change)="onDaySelect(TimeTableDay.value)" class="w3-input w3-bar-item w3-right w3-round w3-margin">
+        <option *ngFor="let i of TimeTableDays" default value="{{ i }}">Dag {{ i }}</option>
     </select>
+    <select #OnderwyserKode (change)="onCodeSelect(OnderwyserKode.value)" class="w3-input w3-bar-item w3-right w3-round w3-margin">
+        <option default>Kode</option>
+        <option *ngFor="let Teacher of voogTeachers" value="{{ Teacher['VoogCode'] }}">{{ Teacher['VoogCode'] }}</option>
+
+    </select>
+    <div class="w3-bar" style="background-color: white; border-radius: 5px 5px 0px 0px; height: 10px;"></div>
 </nav>

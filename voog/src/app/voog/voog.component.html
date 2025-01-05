@@ -1,18 +1,8 @@
-<form [formGroup]="lookupForm" (ngSubmit)="onSubmit()" class="w3-border w3-round-xlarge w3-padding w3-container" style="width: 50%;">
-    <h2>Sien leerders wat by my moet voog</h2>
-    <hr />
-    <div class="w3-padding">
-      <label for="day">Dag:</label>
-      <input class="w3-right" style="width:15%" id="day" formControlName="day" type="number" min="1" max="8" placeholder="1" />
-    </div>
-    <div class="w3-padding">
-      <input class="w3-black w3-round-large w3-button w3-right" style="width: 30%;" type="submit">
-    </div>
-    <br />
-</form>
+<h2 style="width: 50%; margin: 0 auto;">Sien leerders wat by my moet voog</h2>
+<hr />
 <br />
 <div>
-    <div *ngIf="voogLearners" class="w3-container w3-card w3-round-large w3-padding">
+    <div class="w3-container w3-card w3-round-large w3-padding">
         <h2>Vooglys</h2>
         <hr />
         <table class="w3-table-all">
@@ -29,6 +19,55 @@
                 <td>{{ learners['LearnerName'] }}</td>
                 <td>{{ learners['LearnerClass'] }}</td>
                 <td>{{ learners['TimeTablePeriod'] }}</td>
+            </tr>
+            <tr *ngIf="!voogLearners">
+                <td colspan="5" style="text-align: center;">
+                    <div>
+                        <i class="loading-circle" style="font-size: 24px;"></i>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="voogLearners.length === 0">
+                <td colspan="5" style="text-align: center;">
+                    <div>
+                        <p>Geen leerders om te voog nie.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>    
+    <br />
+    <div class="w3-container w3-card w3-round-large w3-padding">
+        <h2>Moontlike Buddy Leerders</h2>
+        <hr />
+        <table class="w3-table-all">
+            <tr>
+                <th>Period</th>
+                <th>Absent Teacher Code</th>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Subject</th>              
+            </tr>
+            <tr *ngFor="let learners of buddyLearners">
+                <td>{{ learners['Period'] }}</td>
+                <td>{{ learners['AbsentTeacherCode'] }}</td>
+                <td>{{ learners['LearnerName'] }}</td>
+                <td>{{ learners['LearnerClass'] }}</td>
+                <td>{{ learners['TimeTablePeriod'] }}</td>
+            </tr>
+            <tr *ngIf="!buddyLearners">
+                <td colspan="5" style="text-align: center;">
+                    <div>
+                        <i class="loading-circle" style="font-size: 24px;"></i>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="buddyLearners.length === 0">
+                <td colspan="5" style="text-align: center;">
+                    <div>
+                        <p>Geen leerders om te buddy nie.</p>
+                    </div>
+                </td>
             </tr>
         </table>
     </div>    

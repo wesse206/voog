@@ -39,5 +39,14 @@ class APICalls():
         return self.getAbsentTeachers()
     
     def getTeacherlessLearnersVoog(self, TeacherCode, Day):
+        print(f"exec VoogLookup '{TeacherCode}', {Day}")
         self.cursor.execute(f"exec VoogLookup '{TeacherCode}', {Day}")
+        return self.formatData()
+    
+    def getTeacherlessLearnersBuddy(self, TeacherCode, Day):
+        self.cursor.execute(f"exec BuddyLookup '{TeacherCode}', {Day}")
+        return self.formatData()
+    
+    def getVoogTeachers(self):
+        self.cursor.execute(f"select VoogCode from VoogBuddyMapping")
         return self.formatData()

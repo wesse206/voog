@@ -20,8 +20,6 @@ export class AppComponent {
     this.TeacherCode = TeacherCode
   }
 
-
-
   constructor() { }
 
 }
