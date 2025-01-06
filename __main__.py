@@ -1,38 +1,27 @@
 import os
 
-from flask import Flask, flash, json, request, redirect, url_for, jsonify, send_from_directory
-from werkzeug.utils import secure_filename
+from flask import Flask, request, jsonify, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_httpauth import HTTPTokenAuth
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_httpauth import HTTPBasicAuth
 
+from api_routes import api_bp, auth
 from importtool import ImportTool
-from api import APICalls
-from connectDB import connectDB
 
 UPLOAD_FOLDER = '.'
 ALLOWED_EXTENSIONS = {'xlsx', 'xls'}
 
 app = Flask(__name__)
-auth = HTTPTokenAuth(scheme='Bearer')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['JWT_SECRET_KEY'] = 'your_jwt_secret_key'  # Change this to a random secret key
-jwt = JWTManager(app)
-apiService = APICalls()
 
 users = {
-    "voog": "V00g@ppL0g1n"
+    "voog": generate_password_hash("HSDVoog2025")
 }
 
-@app.route('/login', methods=['POST'])
-def login():
-    username = request.json.get('username', None)
-    password = request.json.get('password', None)
-    if username not in users or not check_password_hash(generate_password_hash(users[username]), password):
-        return jsonify({"msg": "Bad username or password"}), 401
-
-    access_token = create_access_token(identity=username)
-    return jsonify(access_token=access_token)
+@auth.verify_password
+def verify_password(username, password):
+    if username in users and check_password_hash(users.get(username), password):
+      return username
 
 # def allowed_file(filename):
 #     return '.' in filename and \
@@ -69,51 +58,8 @@ def static_proxy(path):
 def root():
   return send_from_directory('./voog/dist/voog/browser', 'index.html')
 
-@app.route('/api/', defaults={'path': ''})
-@app.route('/api/<path:path>')
-@jwt_required()
-def api_base(path):
-    return jsonify({"message": "API base route"}), 200
-
-
-@app.route('/api/getTeacherlessLearners')
-def getTeacherLessLearnersView():
-    TeacherCode = request.args.get('TeacherCode')
-    Day = int(request.args.get('Day'))
-    return jsonify(apiService.getTeacherlessLearners(TeacherCode, Day))
-
-@app.route('/api/getAbsentTeachers')
-def getAbsentTeachersView():
-    return jsonify(apiService.getAbsentTeachers())
-
-@app.route('/api/setAbsentTeacher')
-def setAbsentTeacherView():
-    TeacherCode = request.args.get('TeacherCode')
-    Day = int(request.args.get('Day'))
-    return jsonify(apiService.setAbsentTeacher(TeacherCode, Day))
-
-@app.route('/api/removeAbsentTeacher')
-def removeAbsentTeacherView():
-    TeacherCode = request.args.get('TeacherCode')
-    Day = int(request.args.get('Day'))
-    return jsonify(apiService.removeAbsentTeacher(TeacherCode, Day))
-
-@app.route('/api/getTeacherlessLearnersVoog')
-def getTeacherLessLearnersVoogView():
-    TeacherCode = request.args.get('TeacherCode')
-    Day = int(request.args.get('Day'))
-    return jsonify(apiService.getTeacherlessLearnersVoog(TeacherCode, Day))
-
-@app.route('/api/getTeacherlessLearnersBuddy')
-def getTeacherLessLearnersBuddyView():
-    TeacherCode = request.args.get('TeacherCode')
-    Day = int(request.args.get('Day'))
-    return jsonify(apiService.getTeacherlessLearnersBuddy(TeacherCode, Day))
-
-@app.route('/api/getVoogTeachers')
-def getVoogTeachersView():
-    return jsonify(apiService.getVoogTeachers())
-
+# All /api/ routes are in the blueprint
+app.register_blueprint(api_bp, url_prefix='/api')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
