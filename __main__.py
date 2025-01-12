@@ -5,14 +5,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_httpauth import HTTPBasicAuth
 
 from api_routes import api_bp, auth
-from importtool import ImportTool
+from importtool_routers import importtool_bp
 
 UPLOAD_FOLDER = '.'
 ALLOWED_EXTENSIONS = {'xlsx', 'xls'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['JWT_SECRET_KEY'] = 'your_jwt_secret_key'  # Change this to a random secret key
 
 users = {
     "voog": generate_password_hash("HSDVoog2025")
@@ -60,6 +59,7 @@ def root():
 
 # All /api/ routes are in the blueprint
 app.register_blueprint(api_bp, url_prefix='/api')
+app.register_blueprint(importtool_bp, url_prefix='/importtool')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)

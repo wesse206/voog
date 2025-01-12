@@ -64,7 +64,21 @@ class ImportTool():
                     lastname = lastname[:lastname.find('\'')] + '\'' + lastname[lastname.find('\''):]
                 values = f"'{code}', '{lastname}'"
                 self.importToSQL('codesImport', fields, values)
-                
+
+    def importLearners(self):
+        fields = "grade, class, learner, learnerNumber, idnumber, subject, subjectGroup, subjectGroupEducator"
+        self.loadSheet()
+        for row in self.sheet:
+            if self.header:
+                self.header = False
+            else:
+                code = row[0].value
+                lastname = row[1].value
+                if lastname.find('\'') > -1:
+                    lastname = lastname[:lastname.find('\'')] + '\'' + lastname[lastname.find('\''):]
+                values = f"'{code}', '{lastname}'"
+                self.importToSQL('codesImport', fields, values)
+
     def cleanup(self):
         self.conn.close()
         self.book.close()

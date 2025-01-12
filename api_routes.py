@@ -45,3 +45,10 @@ def setAbsentTeacherView():
 @auth.login_required
 def getVoogTeachersView():
     return jsonify(apiService.getVoogTeachers())
+
+@api_bp.route('/removeAbsentTeacher')
+@auth.login_required
+def removeAbsentTeacherView():
+    TeacherCode = request.args.get('TeacherCode')
+    Day = int(request.args.get('Day'))
+    return jsonify(apiService.removeAbsentTeacher(TeacherCode))

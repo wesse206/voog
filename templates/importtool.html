@@ -1,0 +1,38 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<section
+    style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+    <h1 style="font-size: 5vw;">Import Tool</h1>
+    <form method="POST" enctype=multipart/form-data>
+        <input type="file" name="file" id="file" accept=".xlsx" hidden />
+        <md-outlined-text-field id="file-display" type="text" readonly placeholder="Choose a file"
+            onclick="document.getElementById('file').click();" style="width: 80vw;">
+
+            <md-icon slot="leading-icon">upload</md-icon>
+        </md-outlined-text-field>
+        <br />
+        <br />
+        <div role="toolbar">
+            <md-filled-button type="submit" name="action" value="importTimeTable">
+                <md-icon slot="icon">calendar_month</md-icon>
+                Import TimeTable
+            </md-filled-button>
+
+            <md-filled-button type="submit" name="action" value="importLearners">
+                <md-icon slot="icon">groups</md-icon>
+                Import Learners
+            </md-filled-button>
+        </div>
+
+
+        <script>
+            document.getElementById('file').addEventListener('change', function () {
+                document.getElementById('file-display').value = this.files[0].name;
+            });
+        </script>
+    </form>
+</section>
+
+
+{% endblock %}

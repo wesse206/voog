@@ -33,8 +33,8 @@ class APICalls():
         self.cursor.commit()
         return self.getAbsentTeachers()
     
-    def removeAbsentTeacher(self, TeacherCode, Day):
-        self.cursor.execute(f"exec TeacherAbsentRemove '{TeacherCode}', {Day}")
+    def removeAbsentTeacher(self, TeacherCode):
+        self.cursor.execute(f"exec TeacherAbsentRemove '{TeacherCode}'")
         self.cursor.commit()
         return self.getAbsentTeachers()
     
