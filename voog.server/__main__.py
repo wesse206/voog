@@ -26,11 +26,11 @@ def verify_password(username, password):
 # Angular app
 @app.route('/<path:path>', methods=['GET'])
 def static_proxy(path):
-  return send_from_directory('./voog/dist/voog/browser', path)
+  return send_from_directory('../voog.client/dist/voog/browser', path)
 
 @app.route('/')
 def root():
-  return send_from_directory('./voog/dist/voog/browser', 'index.html')
+  return send_from_directory('../voog.client/dist/voog/browser', 'index.html')
 
 # All /api/ routes are in the blueprint
 app.register_blueprint(api_bp, url_prefix='/api')
