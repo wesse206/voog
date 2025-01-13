@@ -1,3 +1,5 @@
+# TODO: Make generateVoogList part of ImportTool
+
 import connectDB
 
 conn = connectDB.connectDB()

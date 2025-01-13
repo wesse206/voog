@@ -21,13 +21,13 @@ def verify_password(username, password):
 def importtool_base(path):
     if request.method == 'POST':
         file = request.files.get("file")
-        file.save(os.path.join('Uploads', f'{file.filename}'))
+        file.save(os.path.join('uploads', f'{file.filename}'))
         action = request.form['action']
         if action == 'importTimeTable':
             # importtool = ImportTool(f'Uploads/{file.filename}')
             # importtool.importTimeTable()
             # importtool.cleanup()
-            os.remove(f'Uploads/{file.filename}')
+            os.remove(f'uploads/{file.filename}')
             
         
     return render_template('importtool.html')
