@@ -38,4 +38,6 @@ app.register_blueprint(api_bp, url_prefix='/api')
 app.register_blueprint(importtool_bp, url_prefix='/importtool')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    print('Building Frontend...')
+    # os.system(f'cd { os.path.abspath("voog.client") } && npm run build')
+    app.run()

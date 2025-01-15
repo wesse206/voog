@@ -65,18 +65,45 @@ class ImportTool():
                 self.importToSQL('codesImport', fields, values)
 
     def importLearners(self):
+        print('starting import')
         fields = "grade, class, learner, learnerNumber, idnumber, subject, subjectGroup, subjectGroupEducator"
-        self.loadSheet()
+        self.loadSheet('Worksheet')
         for row in self.sheet:
             if self.header:
                 self.header = False
             else:
-                code = row[0].value
-                lastname = row[1].value
-                if lastname.find('\'') > -1:
-                    lastname = lastname[:lastname.find('\'')] + '\'' + lastname[lastname.find('\''):]
-                values = f"'{code}', '{lastname}'"
-                self.importToSQL('codesImport', fields, values)
+                Grade = row[0].value
+                Class = row[1].value
+                Learner = row[2].value
+                LearnerNumber = row[3].value
+                IDNumber = row[4].value
+                Subject = row[16].value
+                SubjectGroup = row[18].value
+                SubjectGroupEducator = row[19].value
+
+                if Learner.find('\'') > -1:
+                    Learner = Learner[:Learner.find('\'')] + '\'' + Learner[Learner.find('\''):]
+                if SubjectGroupEducator.find('\'') > -1:
+                    SubjectGroupEducator = SubjectGroupEducator[:SubjectGroupEducator.find('\'')] + '\'' + SubjectGroupEducator[SubjectGroupEducator.find('\''):]
+                values = f"'{Grade}', '{Class}', '{Learner}', '{LearnerNumber}', '{IDNumber}', '{Subject}', '{SubjectGroup}', '{SubjectGroupEducator}'"
+                self.importToSQL('learnersImport', fields, values)
+
+    def generateVoogList(self):
+        self.cursor.execute('select distinct Learner, Class from learnersImport order by Class')
+        learners = self.cursor.fetchall()
+
+        self.cursor.execute("select TeacherCode from TeacherCodeMapping where TeacherCode != 'N/A'")
+        teachers = self.cursor.fetchall()
+
+        print(len(learners), teachers)
+        for i in range(len(learners)):
+            if learners[i][0].find('\'') > -1:
+                learners[i][0] = learners[i][0][:learners[i][0].find('\'')] + '\'' + learners[i][0][learners[i][0].find('\''):]
+                    
+
+            self.cursor.execute(f"insert into VoogList (TeacherCode, LearnerName, LearnerClass) values ('{teachers[i % len(teachers)][0]}', '{learners[i][0]}', '{learners[i][1]}') ")
+
+        self.cursor.commit()
 
     def cleanup(self):
         self.conn.close()

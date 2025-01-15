@@ -21,13 +21,22 @@ def verify_password(username, password):
 def importtool_base(path):
     if request.method == 'POST':
         file = request.files.get("file")
-        file.save(os.path.join('uploads', f'{file.filename}'))
+        file.save(os.path.join('voog.server','uploads', f'{file.filename}'))
+        print('file saved')
         action = request.form['action']
-        if action == 'importTimeTable':
-            # importtool = ImportTool(f'Uploads/{file.filename}')
-            # importtool.importTimeTable()
-            # importtool.cleanup()
-            os.remove(f'uploads/{file.filename}')
+        importtool = ImportTool(f'voog.server/uploads/{file.filename}')
+        if action == 'importTimeTable':          
+            importtool.importTimeTable()
+        elif action == 'importLearners':
+            print('starting learner import')
+            importtool.importLearners()
+        elif action == 'importTeacherCodes':
+            importtool.importTeacherCodes()
+        elif action == 'generateVoogList':
+            importtool.generateVoogList()
+
+        importtool.cleanup()
+        os.remove(f'voog.server/uploads/{file.filename}')
             
         
     return render_template('importtool.html')
