@@ -1,0 +1,11 @@
+@media (min-width: 768px) {
+  .navigation {
+    display: block;
+  }
+}
+@media (max-width: 767px) {
+    .navigation {
+      display: flex;
+      flex-direction: column;
+    }
+  }
