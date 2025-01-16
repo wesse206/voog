@@ -9,7 +9,8 @@ class ImportTool():
         # Start Import Tool
         self.conn = self.connectDB()
         self.cursor = self.conn.cursor()
-        self.book = openpyxl.load_workbook(path)
+        if path:
+            self.book = openpyxl.load_workbook(path)
 
     def connectDB(self):
         conn = connectDB()
@@ -32,7 +33,9 @@ class ImportTool():
         self.cursor.commit()
 
     def importTimeTable(self):
+        table = 'timetableImport'
         fields = 'code, day, P1, P2, P3, P4, P5, P6'
+        self.cursor.execute(f"truncate table {table}")
         for i in range(8):
             self.loadSheet('Edu CTT D' + str(i + 1))
             for row in self.sheet:
@@ -48,25 +51,28 @@ class ImportTool():
                     P5 = row[5].value
                     P6 = row[6].value
                     values = f"'{code}', '{day}', '{P1}', '{P2}', '{P3}', '{P4}', '{P5}', '{P6}'"
-                    self.importToSQL('timetableImport', fields, values)
+                    self.importToSQL(table, fields, values)
 
     def importTeacherCodes(self):
+        table = 'codesImport'
         fields = "code, lastname"
+        self.cursor.execute(f"truncate table {table}")
         self.loadSheet()
         for row in self.sheet:
             if self.header:
                 self.header = False
             else:
-                code = row[0].value
+                code = row[2].value
                 lastname = row[1].value
                 if lastname.find('\'') > -1:
                     lastname = lastname[:lastname.find('\'')] + '\'' + lastname[lastname.find('\''):]
                 values = f"'{code}', '{lastname}'"
-                self.importToSQL('codesImport', fields, values)
+                self.importToSQL(table, fields, values)
 
     def importLearners(self):
-        print('starting import')
+        table = 'learnersImport'
         fields = "grade, class, learner, learnerNumber, idnumber, subject, subjectGroup, subjectGroupEducator"
+        self.cursor.execute(f"truncate table {table}")
         self.loadSheet('Worksheet')
         for row in self.sheet:
             if self.header:
@@ -86,7 +92,7 @@ class ImportTool():
                 if SubjectGroupEducator.find('\'') > -1:
                     SubjectGroupEducator = SubjectGroupEducator[:SubjectGroupEducator.find('\'')] + '\'' + SubjectGroupEducator[SubjectGroupEducator.find('\''):]
                 values = f"'{Grade}', '{Class}', '{Learner}', '{LearnerNumber}', '{IDNumber}', '{Subject}', '{SubjectGroup}', '{SubjectGroupEducator}'"
-                self.importToSQL('learnersImport', fields, values)
+                self.importToSQL(table, fields, values)
 
     def generateVoogList(self):
         self.cursor.execute('select distinct Learner, Class from learnersImport order by Class')
@@ -95,7 +101,7 @@ class ImportTool():
         self.cursor.execute("select TeacherCode from TeacherCodeMapping where TeacherCode != 'N/A'")
         teachers = self.cursor.fetchall()
 
-        print(len(learners), teachers)
+        self.cursor.execute("truncate table VoogList")
         for i in range(len(learners)):
             if learners[i][0].find('\'') > -1:
                 learners[i][0] = learners[i][0][:learners[i][0].find('\'')] + '\'' + learners[i][0][learners[i][0].find('\''):]

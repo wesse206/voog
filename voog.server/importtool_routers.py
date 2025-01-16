@@ -20,23 +20,28 @@ def verify_password(username, password):
 @importAuth.login_required
 def importtool_base(path):
     if request.method == 'POST':
-        file = request.files.get("file")
-        file.save(os.path.join('voog.server','uploads', f'{file.filename}'))
-        print('file saved')
         action = request.form['action']
-        importtool = ImportTool(f'voog.server/uploads/{file.filename}')
-        if action == 'importTimeTable':          
-            importtool.importTimeTable()
-        elif action == 'importLearners':
-            print('starting learner import')
-            importtool.importLearners()
-        elif action == 'importTeacherCodes':
-            importtool.importTeacherCodes()
+        if action in ['importTimeTable', 'importLearners', 'importTeacherCodes']:
+            file = request.files.get("file")
+            file.save(os.path.join('voog.server','uploads', f'{file.filename}'))
+            importtool = ImportTool(f'voog.server/uploads/{file.filename}')
+
+            if action == 'importTimeTable':          
+                importtool.importTimeTable()
+            elif action == 'importLearners':
+                print('starting learner import')
+                importtool.importLearners()
+            elif action == 'importTeacherCodes':
+                importtool.importTeacherCodes()
+
+            importtool.cleanup()
+            os.remove(f'voog.server/uploads/{file.filename}')
+            
         elif action == 'generateVoogList':
+            importtool = ImportTool(None)
             importtool.generateVoogList()
 
-        importtool.cleanup()
-        os.remove(f'voog.server/uploads/{file.filename}')
+        
             
         
     return render_template('importtool.html')

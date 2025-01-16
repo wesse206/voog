@@ -3,7 +3,7 @@ import pyodbc
 import openpyxl
 
 class ImportTool():
-    def __init__(self, path):
+    def __init__(self, path=None):
         # SQL Connection String
         self.SERVER = 'localhost\\SQLEXPRESS'
         self.DATABASE = 'voog'
