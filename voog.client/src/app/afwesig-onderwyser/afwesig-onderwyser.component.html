@@ -1,6 +1,6 @@
 <div class="container">
   <form [formGroup]="lookupForm" (ngSubmit)="onSubmit()" class="w3-card w3-border w3-round-xlarge w3-padding w3-container">
-      <h2>Sien leerders wat moet voog</h2>
+      <h2>Voer afwesige onderwysers in</h2>
       <hr />
       <div class="w3-padding">
         <label for="teacherCode">Onderwyser Kode:</label>
@@ -24,7 +24,7 @@
     <table *ngIf="absentTeachers" class="w3-table-all">
       <tr>
         <!-- <th>Day</th> -->
-        <th>Teacher Code</th>
+        <th>Onderwyser Kode</th>
       </tr>
       <tr *ngFor="let teacher of absentTeachers">
         <!-- <td>{{ teacher['Day'] }}</td> -->
