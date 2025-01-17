@@ -8,7 +8,7 @@ importtool_bp = Blueprint('importtool_bp', __name__)
 importAuth = HTTPBasicAuth()
 
 users = {
-    "admin": generate_password_hash("admin")
+    "admin": generate_password_hash("HSDIT25")
 }
 
 @importAuth.verify_password

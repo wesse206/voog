@@ -1,0 +1,17 @@
+{
+    "short_name": "Voog",
+    "name": "Voog",
+    "icons": [
+      {
+        "src": "logo.png",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "any"
+      }
+    ],
+    "start_url":"http://localhost:4200/",
+    "background_color": "#FFFFFF",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "white"
+  }
