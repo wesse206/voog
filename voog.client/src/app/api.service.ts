@@ -58,5 +58,13 @@ export class ApiService {
     return this.http.get(`/api/getVoogTeachers`, { headers: this.createAuthHeader() })
   }
 
+  getLearners(): Observable<any> {
+    return this.http.get(`/api/getLearners`, { headers: this.createAuthHeader() })
+  }
+
+  LookupLearner(Learner: string, Day: number): Observable<any> {
+    return this.http.get(`/api/LookupLearner?Learner=${Learner}&Day=${Day}`, { headers: this.createAuthHeader() })
+  }
+
   constructor(private http: HttpClient) { }
 }

@@ -1,0 +1,53 @@
+<div class="w3-padding">
+    
+    <div class="w3-bar w3-padding-small w3-card w3-round">
+        <label for="Learner" class="w3-bar-item w3-padding w3-margin">Leerder:</label>
+        <input #Learner id="Learner" (change)="onLearnerSelect(Learner.value)" (keyup.enter)="onLearnerSelect(Learner.value)" class="w3-input w3-border w3-round w3-bar-item w3-padding w3-margin" style="width: 50vw;" list="Learners">
+        <button class="w3-button w3-black w3-round w3-bar-item w3-padding w3-margin" (click)="onLearnerSelect(Learner.value)">Soek</button>
+        <datalist id="Learners">
+            <option *ngFor="let learner of learners" value="{{ learner['learner'] }}">{{ learner['learner'] }}</option>
+        </datalist>
+    </div>
+    
+</div>
+
+
+<br />
+<br />
+<div class="w3-container w3-card w3-round-large w3-padding" style="overflow: auto">
+    <h1 *ngIf="Learner.value.length !== 0">Rooster van {{ Learner.value }}</h1>
+    <h1 *ngIf="Learner.value.length === 0">Rooster van leerder as een gekies word</h1>
+    <hr />
+    <table class="w3-table-all learner-table">
+        <tr>
+            <th>Periode</th>
+            <th>Klas</th>
+            <th>Vak</th>
+            <th>OnderwyserKode</th>
+            <th>Onderwyser</th>
+            <th>Klaskamer</th>
+        </tr>
+        <tr *ngFor="let periods of timetable">
+            <td>{{ periods['Period'] }}</td>
+            <td>{{ periods['Class'] }}</td>
+            <td>{{ periods['Subject'] }}</td>
+            <td>{{ periods['TeacherCode'] }}</td>
+            <td>{{ periods['Teacher'] }}</td>
+            <td>{{ periods['Classroom'] }}</td>
+        </tr>
+        <tr *ngIf="!timetable">
+            <td colspan="6" style="text-align: center;">
+                <div>
+                    <i class="loading-circle" style="font-size: 24px;"></i>
+                </div>
+            </td>
+        </tr>
+        <tr *ngIf="timetable.length === 0">
+            <td colspan="6" style="text-align: center;">
+                <div>
+                    <p>Die leerder word nie gevind nie</p>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

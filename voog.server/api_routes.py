@@ -52,3 +52,18 @@ def removeAbsentTeacherView():
     TeacherCode = request.args.get('TeacherCode')
     Day = int(request.args.get('Day'))
     return jsonify(apiService.removeAbsentTeacher(TeacherCode))
+
+'''
+New Code for Server
+'''
+@api_bp.route('/getLearners')
+@auth.login_required
+def getLearnersView():
+    return jsonify(apiService.getLearners())
+
+@api_bp.route('/LookupLearner')
+@auth.login_required
+def LookupLearnerView():
+    Learner = request.args.get('Learner')
+    Day = int(request.args.get('Day'))
+    return jsonify(apiService.LookupLearner(Learner, Day))

@@ -49,3 +49,13 @@ class APICalls():
     def getVoogTeachers(self):
         self.cursor.execute(f"select VoogCode from VoogBuddyMapping")
         return self.formatData()
+
+    '''
+    New Code for Server
+    '''
+    def getLearners(self):
+        self.cursor.execute(f"select distinct learner from learnersImport order by 1")
+        return self.formatData()
+    def LookupLearner(self, Learner, Day):
+        self.cursor.execute(f"exec LearnerLookup '{Learner}', {Day}")
+        return self.formatData()

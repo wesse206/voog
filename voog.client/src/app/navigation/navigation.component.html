@@ -2,6 +2,7 @@
     <!-- <button routerLink="/" routerLinkActive="active" class="w3-bar-item w3-button w3-black w3-margin w3-round">Home</button> -->
     <button routerLink="/onderwyser-afwesig" routerLinkActive="active" class="w3-bar-item w3-button w3-black w3-margin w3-round">Onderwysers Afwesighede</button>    
     <button routerLink="/voog" routerLinkActive="active" class="w3-bar-item w3-button w3-black w3-margin w3-round">Wie voog by my?</button> 
+    <button routerLink="/vind-leerder" routerLinkActive="active" class="w3-bar-item w3-button w3-black w3-margin w3-round">Vind 'n leerder</button> 
     <select #TimeTableDay (change)="onDaySelect(TimeTableDay.value)" class="w3-input w3-bar-item w3-right w3-round w3-margin">
         <option *ngFor="let i of TimeTableDays" default value="{{ i }}">Dag {{ i }}</option>
     </select>
